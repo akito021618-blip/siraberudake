@@ -57,16 +57,19 @@ function getCacheMeta() {
  */
 function parseExcel(buffer, fileName) {
   const workbook = XLSX.read(buffer, { type: 'array' });
-  const sheetName = workbook.SheetNames[0];
-  const sheet = workbook.Sheets[sheetName];
-  const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
 
-  const parsed = rows
-    .map(row => ({
-      question: String(row[0] ?? '').trim(),
-      answer: String(row[1] ?? '').trim(),
-    }))
-    .filter(item => item.question && item.answer);
+  const parsed = [];
+  for (const sheetName of workbook.SheetNames) {
+    const sheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, defval: '' });
+    for (const row of rows) {
+      const question = String(row[0] ?? '').trim();
+      const answer = String(row[1] ?? '').trim();
+      if (question && answer) {
+        parsed.push({ question, answer });
+      }
+    }
+  }
 
   if (parsed.length === 0) {
     setStatus('データが見つかりませんでした。A列に問題文、B列に答えが必要です。');
@@ -75,7 +78,7 @@ function parseExcel(buffer, fileName) {
 
   data = parsed;
   saveToCache(data, fileName);
-  setStatus(`${data.length}件 読み込みました`);
+  setStatus(`${data.length}件 読み込みました（${workbook.SheetNames.length}シート）`);
   hideUpload();
   updateDataInfo();
 }
