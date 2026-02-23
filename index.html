@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="theme-color" content="#1a73e8">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>就活Webテスト 調べる</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>就活Webテスト 調べる</h1>
+    <button id="settingsBtn" class="settings-btn" title="設定">⚙</button>
+  </header>
+
+  <main>
+    <div class="search-wrapper">
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="キーワードを入力..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+        <button id="clearBtn" class="clear-btn" aria-label="クリア" style="display:none;">✕</button>
+      </div>
+    </div>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+
+    <div id="results" class="results" role="list"></div>
+
+    <!-- データアップロードUI -->
+    <div id="uploadSection" class="upload-section" style="display:none;">
+      <div class="upload-card">
+        <div class="upload-icon">📊</div>
+        <p class="upload-title">Excelファイルを読み込む</p>
+        <p class="upload-desc">
+          A列: 問題文　B列: 答え<br>
+          の形式のExcelファイル（.xlsx）を選択してください
+        </p>
+        <label for="fileInput" class="upload-btn">
+          ファイルを選択
+          <input type="file" id="fileInput" accept=".xlsx,.xls" style="display:none;">
+        </label>
+        <p class="upload-note">※ 一度読み込んだデータは次回以降も保持されます</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- 設定パネル -->
+  <div id="settingsPanel" class="settings-panel" style="display:none;">
+    <div class="settings-content">
+      <h2>設定</h2>
+      <div class="settings-item">
+        <p class="settings-label">読み込みデータ</p>
+        <p id="dataInfo" class="settings-value">-</p>
+      </div>
+      <button id="reloadBtn" class="settings-action-btn">Excelファイルを再読み込み</button>
+      <button id="clearCacheBtn" class="settings-action-btn danger">データを削除</button>
+      <button id="closeSettingsBtn" class="settings-close-btn">閉じる</button>
+    </div>
+  </div>
+  <div id="overlay" class="overlay" style="display:none;"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+    integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+  <script src="app.js"></script>
+</body>
+</html>
